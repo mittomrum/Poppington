@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://71juduoprvby"]
+
+[ext_resource type="Texture2D" uid="uid://do4v5x67pxbab" path="res://BalloonPopperBg.png" id="1_imdho"]
+[ext_resource type="Script" path="res://Balloon.gd" id="2_ssat5"]
+[ext_resource type="Texture2D" uid="uid://c5p4whx0lyitd" path="res://RedBallonSprite.png" id="3_gs02y"]
+[ext_resource type="PackedScene" uid="uid://lpudhfloxo8s" path="res://score_label.tscn" id="4_clg3o"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ssf7e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tqker"]
+font_size = 32
+shadow_size = 3
+
+[node name="Node2D" type="Node2D"]
+
+[node name="BalloonPopperBg" type="Sprite2D" parent="."]
+scale = Vector2(0.5418, 0.5418)
+texture = ExtResource("1_imdho")
+
+[node name="Camera2D" type="Camera2D" parent="BalloonPopperBg"]
+
+[node name="Balloon" type="Area2D" parent="."]
+position = Vector2(-75, -39)
+script = ExtResource("2_ssat5")
+
+[node name="RedBallonSprite2" type="Sprite2D" parent="Balloon"]
+texture = ExtResource("3_gs02y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Balloon"]
+scale = Vector2(1.325, 1.325)
+shape = SubResource("CapsuleShape2D_ssf7e")
+
+[node name="Balloon2" type="Area2D" parent="."]
+position = Vector2(17, -31)
+script = ExtResource("2_ssat5")
+
+[node name="RedBallonSprite2" type="Sprite2D" parent="Balloon2"]
+texture = ExtResource("3_gs02y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Balloon2"]
+scale = Vector2(1.325, 1.325)
+shape = SubResource("CapsuleShape2D_ssf7e")
+
+[node name="score_label" parent="." node_paths=PackedStringArray("score_text") instance=ExtResource("4_clg3o")]
+label_settings = SubResource("LabelSettings_tqker")
+score_text = NodePath(".")
+
+[connection signal="input_event" from="Balloon" to="Balloon" method="_on_input_event"]
+[connection signal="popped" from="Balloon" to="score_label" method="_on_balloon_popped"]
+[connection signal="input_event" from="Balloon2" to="Balloon2" method="_on_input_event"]
+[connection signal="popped" from="Balloon2" to="score_label" method="_on_balloon_popped"]
